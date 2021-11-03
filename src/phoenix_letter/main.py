@@ -3,6 +3,7 @@ import sys
 from time import sleep
 
 import boto3
+import uuid
 
 from phoenix_letter.common.arguments import parse_arguments
 from phoenix_letter.common.credentials import get_credentials
@@ -82,6 +83,7 @@ def main(args=None):
                         MessageBody=message["Body"],
                         MessageAttributes=message["MessageAttributes"],
                         MessageGroupId=args.group_id,
+                        MessageDeduplicationId=str(uuid.uuid4())
                     )
                 else:
                     sqs_client.send_message(
